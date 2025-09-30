@@ -1,0 +1,11 @@
+# Env
+.env
+
+# Node
+node_modules
+npm-debug.log*
+yarn-error.log*
+.pnpm-store
+
+# OS
+.DS_Store
