@@ -6,7 +6,7 @@ const morgan = require('morgan');
 const healthRoutes = require('./routes/health.routes');
 const tripRoutes = require('./routes/trip.routes');
 const transactionRoutes = require('./routes/transaction.routes');
-const settlementRoutes = require('./routes/settlement.routes'); // ⬅️ NEW
+const settlementRoutes = require('./routes/settlement.routes');
 const aiRoutes = require("./routes/ai.routes");
 
 const notFound = require('./middlewares/notFound');
@@ -32,8 +32,8 @@ app.get('/', (req, res) => {
 // Routes
 app.use('/health', healthRoutes);
 app.use('/api/trips', tripRoutes);
-app.use('/api', transactionRoutes); // transactions endpoints
-app.use('/api', settlementRoutes);  // settlement endpoint
+app.use('/api', transactionRoutes); 
+app.use('/api', settlementRoutes); 
 app.use("/api/ai", aiRoutes);
 
 // 404 + error handler

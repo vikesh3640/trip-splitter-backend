@@ -1,4 +1,3 @@
-// src/middlewares/authAny.js
 const admin = require("../lib/firebaseAdmin");
 
 module.exports = async function authAny(req, res, next) {

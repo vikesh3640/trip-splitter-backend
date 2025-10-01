@@ -8,7 +8,7 @@ const connectDB = async () => {
   try {
     await mongoose.connect(uri, {
       autoIndex: true
-      // dbName: undefined // use DB name from URI
+      // dbName: undefined 
     });
 
     if (!isConnectedOnce) {
@@ -17,7 +17,6 @@ const connectDB = async () => {
     }
   } catch (err) {
     console.error('[db] MongoDB connection error:', err.message);
-    // Do not throw — let the API run; /health will reflect DB status.
   }
 
   mongoose.connection.on('disconnected', () => {

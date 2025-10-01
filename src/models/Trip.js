@@ -15,14 +15,13 @@ const TripSchema = new mongoose.Schema(
     members: { type: [MemberSchema], default: [] },
     publicSlug: { type: String, unique: true, index: true },
 
-    // NEW: lifecycle
     isClosed: { type: Boolean, default: false, index: true },
     endedAt: { type: Date, default: null }
   },
   { timestamps: true }
 );
 
-// Generate a short, URL-safe slug if not present
+// Generate a short
 TripSchema.pre('save', function (next) {
   if (!this.publicSlug) {
     const rand = Math.random().toString(36).slice(2, 8);

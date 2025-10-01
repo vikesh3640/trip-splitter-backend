@@ -4,7 +4,7 @@ module.exports = async function ownerAuth(req, res, next) {
   try {
     let uid = null;
 
-    // Prefer Authorization: Bearer <FirebaseIdToken>
+    //  Authorization: Bearer <FirebaseIdToken>
     const authHeader = req.headers.authorization || '';
     const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : null;
 
@@ -13,12 +13,11 @@ module.exports = async function ownerAuth(req, res, next) {
         const decoded = await admin.auth().verifyIdToken(token);
         uid = decoded.uid;
       } catch (e) {
-        // token provided but invalid/expired
         return res.status(401).json({ error: 'Invalid token' });
       }
     }
 
-    // Optional dev fallback (ONLY if you enable it)
+    // Optional dev fallback
     if (!uid && process.env.DEV_ALLOW_FALLBACK === 'true') {
       const fallback = req.headers['x-owner-id'];
       if (fallback) uid = String(fallback);

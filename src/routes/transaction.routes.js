@@ -7,7 +7,7 @@ const { recomputeTripBalances } = require('../utils/balance');
 
 const router = express.Router();
 
-/* ---------------- Settlement helpers (local) ---------------- */
+/* Settlement helpers (local)*/
 
 function computeSettlementFromBalances(members) {
   const creditors = [];
@@ -85,7 +85,7 @@ function computeSettlementFromBalances(members) {
   return { settlements: best || [], algorithm: 'optimal' };
 }
 
-/* ---------------- CRUD endpoints ---------------- */
+/*CRUD endpoints */
 
 /**
  * GET /api/trips/:tripId/transactions
@@ -127,7 +127,7 @@ router.post('/trips/:tripId/transactions', ownerAuth, async (req, res, next) => 
       return res.status(400).json({ error: 'customAmounts must align with participants' });
     }
 
-    // Normalize and compute totals
+    // Normalizing and computing totals
     const normPayers = payers
       .filter(p => p && typeof p.name === 'string' && p.name.trim() && Number(p.amount) >= 0)
       .map(p => ({ name: p.name.trim(), amount: Number(p.amount) }));
@@ -150,7 +150,7 @@ router.post('/trips/:tripId/transactions', ownerAuth, async (req, res, next) => 
       totalAmount
     });
 
-    // Update balances from scratch (idempotent)
+    // Update balances 
     await recomputeTripBalances(tripId);
 
     res.status(201).json(txn);
@@ -270,7 +270,7 @@ router.get('/trips/:tripId/settlement', ownerAuth, async (req, res, next) => {
   }
 });
 
-/* ======= PUBLIC READ-ONLY ENDPOINTS (by slug) ======= */
+/*  PUBLIC READ-ONLY ENDPOINTS (by slug)  */
 
 /**
  * GET /api/public/trips/:slug/transactions

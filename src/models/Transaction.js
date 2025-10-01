@@ -16,8 +16,7 @@ const TransactionSchema = new mongoose.Schema(
     payers: { type: [PayerSchema], required: true }, // who paid and how much
     participants: { type: [String], required: true }, // for whom
     splitType: { type: String, enum: ['equal', 'custom'], required: true },
-    customAmounts: { type: [Number], default: [] },   // aligns with participants when splitType === 'custom'
-
+    customAmounts: { type: [Number], default: [] },   // aligns with participants when splitType is'custom'
     totalAmount: { type: Number, required: true, min: 0 } // sum(payers.amount)
   },
   { timestamps: true }

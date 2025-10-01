@@ -13,8 +13,6 @@ function init() {
     console.warn('[firebase-admin] Missing env. Will fail if auth is required.');
     return admin;
   }
-
-  // allow \n in .env
   privateKey = privateKey.replace(/\\n/g, '\n');
 
   try {
@@ -28,7 +26,6 @@ function init() {
     initialized = true;
     console.log('[firebase-admin] Initialized');
   } catch (e) {
-    // ignore "already exists" during dev hot-reload
     if (!/already exists/i.test(e.message)) {
       console.error('[firebase-admin] init error:', e);
     }

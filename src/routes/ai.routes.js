@@ -1,4 +1,3 @@
-// src/routes/ai.routes.js
 const express = require("express");
 const multer = require("multer");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
@@ -6,7 +5,7 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 const router = express.Router();
 const upload = multer({ storage: multer.memoryStorage() });
 
-/** Build model list with graceful fallbacks */
+/** Building model list  */
 function getModelList() {
   const primary = (process.env.GEMINI_MODEL || "gemini-2.5-flash").trim();
   const fallbacks = (process.env.GEMINI_FALLBACKS || "gemini-1.5-flash,gemini-1.5-flash-8b,gemini-1.5-pro")
@@ -62,14 +61,12 @@ Example:
     throw new Error("Empty AI response");
   }
   let clean = text.trim();
-  // Remove possible code fences/backticks
   clean = clean.replace(/```json|```/g, "").trim();
 
   let parsed;
   try {
     parsed = JSON.parse(clean);
   } catch (e) {
-    // Try to extract JSON substring if model added extra text
     const start = clean.indexOf("{");
     const end = clean.lastIndexOf("}");
     if (start >= 0 && end > start) {
@@ -83,7 +80,7 @@ Example:
     }
   }
 
-  // Normalize the shape a bit
+  // Normalizing  shape
   const merchant = String(parsed.merchant || "").trim();
   const categoryRaw = String(parsed.category || "Other").trim();
   const items = Array.isArray(parsed.items) ? parsed.items.slice(0, 10).map(x => String(x || "").trim()).filter(Boolean) : [];
@@ -124,7 +121,6 @@ router.post("/receipt", upload.single("file"), async (req, res) => {
     const base64 = req.file.buffer.toString("base64");
 
     const out = await callWithFallbacks({ base64, mimeType });
-    // For frontend convenience: also return a suggested title
     const top = out.merchant || out.category || "Expense";
     const items = (out.items || []).slice(0, 6).join(", ");
     const title = items ? `${top}\n${items}` : top;
